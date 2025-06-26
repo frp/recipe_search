@@ -1,7 +1,7 @@
 # Recipe Search
 
 <p align="center">
-    <img src="demo.gif" alt="demo">
+    <img src="demo.avif" alt="demo">
 </p>
 
 Ever need to find recipes that use a certain ingredient in your personal collection? Ever need help choosing what to cook?
