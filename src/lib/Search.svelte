@@ -25,15 +25,10 @@ limitations under the License. -->
 
   const RECIPE_STORAGE = "/recipes";
 
-  let results: RecipeInfo[] = $state([]);
-
   let query = $state("");
+  let results = $derived.by(() => engine.search(query));
 
   let errors: string[] = $state([]);
-
-  $effect(() => {
-    results = engine.search(query);
-  });
 
   function selectRandom() {
     const randomRecipe = engine.random(query);
