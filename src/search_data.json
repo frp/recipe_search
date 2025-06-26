@@ -1,0 +1,52 @@
+{
+  "Steak": {
+    "name": "Steak",
+    "headline": "very delicious",
+    "file": "Steak.html",
+    "rating": 5.0,
+    "calories": 898,
+    "ingredients": [
+      {
+        "name": "beef",
+        "quantity": "200g"
+      },
+      {
+        "name": "salt",
+        "quantity": "to taste"
+      },
+      {
+        "name": "pepper",
+        "quantity": "to taste"
+      }
+    ]
+  },
+  "Vanilla Cupcakes": {
+    "name": "Vanilla Cupcakes",
+    "headline": "sweet and fluffy",
+    "file": "Vanilla Cupcakes.html",
+    "rating": 4.5,
+    "calories": 250,
+    "ingredients": [
+      {
+        "name": "flour",
+        "quantity": "200g"
+      },
+      {
+        "name": "sugar",
+        "quantity": "150g"
+      },
+      {
+        "name": "butter",
+        "quantity": "100g"
+      },
+      {
+        "name": "eggs",
+        "quantity": "2"
+      },
+      {
+        "name": "vanilla extract",
+        "quantity": "1 tsp"
+      }
+    ]
+  }
+}

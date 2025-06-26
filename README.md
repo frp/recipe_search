@@ -10,7 +10,7 @@ Ever need to find recipes that use a certain ingredient in your personal collect
 
 Prepare the data:
 
-- Put `search_index.json` (see [Data format](#data-format)) under `/src`.
+- Put `search_data.json` (see [Data format](#data-format)) under `/src`.
 - Put all the recipe files referenced from the index under `/public/recipes`.
 
 To start the app:
