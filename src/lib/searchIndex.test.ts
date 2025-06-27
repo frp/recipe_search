@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { describe, it, expect, beforeEach } from 'vitest';
-import { SearchIndex } from './searchIndex';
-import type { RecipeInfo } from './types';
+import { describe, it, expect, beforeEach } from "vitest";
+import { SearchIndex } from "./searchIndex";
+import type { RecipeInfo } from "./types";
 
 /**
  * Helper function to create a pre-populated SearchIndex for tests.
@@ -22,75 +22,86 @@ import type { RecipeInfo } from './types';
 const setupTestIndex = (): SearchIndex => {
   const recipes = new Map<string, RecipeInfo>([
     [
-      'Stew',
+      "Stew",
       {
-        name: 'Stew',
-        headline: 'with meat and veggies',
-        file: 'Stew.pdf',
+        name: "Stew",
+        headline: "with meat and veggies",
+        file: "Stew.pdf",
         rating: 4.0,
         calories: 800,
-        ingredients: [
-          { name: 'beef', quantity: '500 g' }
-        ]
-      }
+        ingredients: [{ name: "beef", quantity: "500 g" }],
+      },
     ],
     [
-      'Steak',
+      "Steak",
       {
-        name: 'Steak',
-        headline: 'juicy beefy',
-        file: 'Steak.pdf',
+        name: "Steak",
+        headline: "juicy beefy",
+        file: "Steak.pdf",
         rating: 3.0,
         calories: 800,
-        ingredients: [
-          { name: 'beef', quantity: '500 g' }
-        ]
-      }
-    ]
+        ingredients: [{ name: "beef", quantity: "500 g" }],
+      },
+    ],
   ]);
   return new SearchIndex(recipes);
 };
 
-describe('SearchIndex', () => {
+describe("SearchIndex", () => {
   let index: SearchIndex;
 
   beforeEach(() => {
     index = setupTestIndex();
   });
 
-  it('should find keys by recipe name', () => {
-    const keys = index.findKeys('Stew');
-    expect(keys).toEqual(new Set(['Stew']));
+  it("should find keys by recipe name", () => {
+    const keys = index.findKeys("Stew");
+    expect(keys).toEqual(new Set(["Stew"]));
   });
 
-  it('should return an empty set for a term that does not match', () => {
-    const keys = index.findKeys('Tacos');
+  it("should return a set of all keys if the query is empty", () => {
+    const keys = index.findKeys("");
+    expect(keys).toEqual(new Set(["Steak", "Stew"]));
+  });
+
+  it("should return a set of all keys if the query is whitespace-only", () => {
+    const keys = index.findKeys("     ");
+    expect(keys).toEqual(new Set(["Steak", "Stew"]));
+  });
+
+  it("should return an empty set for a term that does not match", () => {
+    const keys = index.findKeys("Tacos");
     expect(keys).toEqual(new Set());
   });
 
-  it('should find keys with a case-insensitive search on name', () => {
-    const keys = index.findKeys('stew');
-    expect(keys).toEqual(new Set(['Stew']));
+  it("should find keys with a case-insensitive search on name", () => {
+    const keys = index.findKeys("stew");
+    expect(keys).toEqual(new Set(["Stew"]));
   });
 
-  it('should find keys with a case-insensitive search on headline', () => {
-    const keys = index.findKeys('VEGGIES');
-    expect(keys).toEqual(new Set(['Stew']));
+  it("should still find keys if the query only matches a part of a word", () => {
+    const keys = index.findKeys("tew");
+    expect(keys).toEqual(new Set(["Stew"]));
   });
 
-  it('should find keys with a case-insensitive search on ingredients', () => {
-    const keys = index.findKeys('BeEf');
-    expect(keys).toEqual(new Set(['Stew', 'Steak']));
+  it("should find keys with a case-insensitive search on headline", () => {
+    const keys = index.findKeys("VEGGIES");
+    expect(keys).toEqual(new Set(["Stew"]));
   });
 
-  it('should require all words in the query to match for findKeys', () => {
-    const keys = index.findKeys('beef veggies');
-    expect(keys).toEqual(new Set(['Stew']));
+  it("should find keys with a case-insensitive search on ingredients", () => {
+    const keys = index.findKeys("BeEf");
+    expect(keys).toEqual(new Set(["Stew", "Steak"]));
   });
 
-  it('should return the full recipe object from a search', () => {
-    const recipes = index.search('beef veggies');
+  it("should require all words in the query to match for findKeys", () => {
+    const keys = index.findKeys("beef veggies");
+    expect(keys).toEqual(new Set(["Stew"]));
+  });
+
+  it("should return the full recipe object from a search", () => {
+    const recipes = index.search("beef veggies");
     expect(recipes).toHaveLength(1);
-    expect(recipes[0].name).toBe('Stew');
+    expect(recipes[0].name).toBe("Stew");
   });
 });

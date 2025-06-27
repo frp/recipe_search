@@ -56,14 +56,32 @@ describe("Search", () => {
     // Both recipes should be visible
     expect(screen.queryByText(/Steak/)).not.toBeNull();
     expect(screen.queryByText(/Stew/)).not.toBeNull();
-    // No error
-    expect(screen.queryByText(/Fehler/)).toBeNull();
+    // No errors
+    expect(screen.queryAllByRole("alert")).toStrictEqual([]);
   });
 
-  it("filters recipes by query", async () => {
+  it("filters recipes by query - ingredients", async () => {
     render(Search, { props: { data: getDataMap(steak, stew) } });
     const input = screen.getByPlaceholderText("Suchen...");
     await userEvent.type(input, "beef");
+    // Only Steak should be visible
+    expect(screen.queryByText(/Steak/)).not.toBeNull();
+    expect(screen.queryByText(/Stew/)).toBeNull();
+  });
+
+  it("filters recipes by query - name", async () => {
+    render(Search, { props: { data: getDataMap(steak, stew) } });
+    const input = screen.getByPlaceholderText("Suchen...");
+    await userEvent.type(input, "Steak");
+    // Only Steak should be visible
+    expect(screen.queryByText(/Steak/)).not.toBeNull();
+    expect(screen.queryByText(/Stew/)).toBeNull();
+  });
+
+  it("filters recipes by query - headline", async () => {
+    render(Search, { props: { data: getDataMap(steak, stew) } });
+    const input = screen.getByPlaceholderText("Suchen...");
+    await userEvent.type(input, "juicy");
     // Only Steak should be visible
     expect(screen.queryByText(/Steak/)).not.toBeNull();
     expect(screen.queryByText(/Stew/)).toBeNull();
