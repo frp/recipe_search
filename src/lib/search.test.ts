@@ -84,6 +84,32 @@ describe("Search", () => {
     expect(screen.queryByText(/Kein passendes Rezept gefunden/)).not.toBeNull();
   });
 
+  it("displays multiple errors and allows dismissing them", async () => {
+    render(Search, { props: { data: getDataMap(steak, stew) } });
+    const input = screen.getByPlaceholderText("Suchen...");
+    await userEvent.type(input, "notfound");
+    const button = screen.getByRole("button");
+
+    // Click random button multiple times to generate multiple errors
+    await userEvent.click(button);
+    await userEvent.click(button);
+    await userEvent.click(button);
+
+    // Check that all error messages are present
+    const errorMessages = screen.getAllByText(/Kein passendes Rezept gefunden/);
+    expect(errorMessages).toHaveLength(3);
+
+    // Dismiss one error
+    const dismissButtons = screen.getAllByLabelText("Close");
+    await userEvent.click(dismissButtons[0]);
+
+    // Check that two error messages remain
+    const remainingErrorMessages = screen.getAllByText(
+      /Kein passendes Rezept gefunden/,
+    );
+    expect(remainingErrorMessages).toHaveLength(2);
+  });
+
   it("opens a random recipe in a new tab if available", async () => {
     render(Search, { props: { data: getDataMap(steak) } });
     window.open = vi.fn();

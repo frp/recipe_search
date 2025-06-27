@@ -55,9 +55,15 @@ limitations under the License. -->
 </form>
 
 <section class="mt-4">
-  {#each errors as error}
-    <div class="alert alert-danger" role="alert">
+  {#each errors as error, i}
+    <div class="alert alert-danger alert-dismissible" role="alert">
       {error}
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        onclick={() => errors.splice(i, 1)}
+      ></button>
     </div>
   {/each}
   {#each results as result}
