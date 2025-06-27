@@ -78,6 +78,7 @@ limitations under the License. -->
           <li>{ingredient.name}</li>
         {/each}
       </ul>
+      <p class="text-secondary small">{result.calories} Kalorien</p>
     </div>
   {/each}
 </section>

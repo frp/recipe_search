@@ -56,6 +56,9 @@ describe("Search", () => {
     // Both recipes should be visible
     expect(screen.queryByText(/Steak/)).not.toBeNull();
     expect(screen.queryByText(/Stew/)).not.toBeNull();
+    // Calories should be visible
+    expect(screen.queryByText(/500 Kalorien/)).not.toBeNull();
+    expect(screen.queryByText(/350 Kalorien/)).not.toBeNull();
     // No errors
     expect(screen.queryAllByRole("alert")).toStrictEqual([]);
   });
